@@ -1,0 +1,23 @@
+.img {
+  width: 250px;
+  border-radius: 100%;
+  margin-bottom: 20px;
+}
+
+.name {
+  margin-bottom: 20px;
+}
+
+.nick {
+  margin-bottom: 20px;
+  color: var(--blue);
+}
+
+.followersBlock {
+  display: flex;
+  gap: 15px;
+}
+
+.followersBlock span {
+  font-size: 15px;
+}

@@ -1,0 +1,10 @@
+.title {
+  margin-bottom: 20px;
+}
+
+.paginationBlock {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  justify-content: flex-end;
+}

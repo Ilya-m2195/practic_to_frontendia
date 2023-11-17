@@ -1,0 +1,13 @@
+.header {
+  background-color: var(--blue);
+  width: 100%;
+  padding: 20px 0;
+  margin-bottom: 50px;
+}
+
+.headerContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 30px;
+}

@@ -1,0 +1,22 @@
+.form {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.input {
+  padding: 12px;
+  padding-left: 45px;
+  outline: 2px var(--blue) solid;
+  outline-offset: -6px;
+  border-radius: 10px;
+  width: 400px;
+  font-size: 17px;
+}
+
+.icon {
+  font-size: 30px;
+  position: absolute;
+  color: gray;
+  left: 10px;
+}
