@@ -5,7 +5,7 @@ body {
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 :root {
-  --blue: #0077ff;
+  --primaryColor: #0077ff;
 }
 
 body {
@@ -79,4 +79,5 @@ h6 {
 .loadingMessage {
   text-align: center;
   color: #333;
+  margin-bottom: 30px;
 }

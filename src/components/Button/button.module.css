@@ -1,0 +1,11 @@
+.btpPagination {
+  color: #666;
+  font-size: 18px;
+  padding: 5px;
+  margin-right: 3px;
+}
+
+.btpPagination:disabled {
+  opacity: 0.6;
+  cursor: default;
+}

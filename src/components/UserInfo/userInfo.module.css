@@ -10,7 +10,7 @@
 
 .nick {
   margin-bottom: 20px;
-  color: var(--blue);
+  color: var(--primaryColor);
 }
 
 .followersBlock {

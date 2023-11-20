@@ -1,0 +1,9 @@
+.input {
+  padding: 12px;
+  padding-left: 45px;
+  outline: 2px var(--primaryColor) solid;
+  outline-offset: -6px;
+  border-radius: 10px;
+  width: 400px;
+  font-size: 17px;
+}

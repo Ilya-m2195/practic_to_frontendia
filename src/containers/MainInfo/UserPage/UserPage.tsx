@@ -5,7 +5,7 @@ import { Context } from '../../../app/Context';
 import { useContext } from 'react';
 import { IUserData } from '../../../app/App';
 
-function UserPage() {
+const UserPage = () => {
   const data: IUserData = useContext(Context);
   return (
     <div className={style.container}>
@@ -19,5 +19,5 @@ function UserPage() {
       <RepositoriesList data={data} />
     </div>
   );
-}
+};
 export default UserPage;

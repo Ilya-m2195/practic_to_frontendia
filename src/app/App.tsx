@@ -4,9 +4,10 @@ import Header from '../containers/Header/Header';
 import MainInfo from '../containers/MainInfo/MainInfo';
 import useDebounce from '../hooks/useDebounce';
 import StartingPage from '../containers/MainInfo/StartingPage/StartingPage';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Context } from './Context';
-import { getUserData } from '../api/api';
+import useGetUserData from '../hooks/useGetUserData';
+import Loader from '../components/Loader/loader';
 
 export interface IUserData {
   avatar_url: string;
@@ -17,36 +18,28 @@ export interface IUserData {
   public_repos?: number;
 }
 
-function App() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [userData, setUserData] = useState<IUserData>();
+const App = () => {
   const [name, setName] = useState('');
-  const [error, setError] = useState('');
   const saveNameValue = (value: string) => setName(value);
+  const delayTime = 1000;
 
-  const debouncedSearch = useDebounce(name, 700);
+  const debouncedSearch = useDebounce(name, delayTime);
+  const [data, isError, isLoading] = useGetUserData(debouncedSearch);
 
-  useEffect(() => {
-    setIsLoading(true);
-    if (debouncedSearch) {
-      getUserData(debouncedSearch)
-        .then((res) => setUserData(res))
-        .catch((error) => setError(error));
-    }
-    setIsLoading(false);
-  }, [debouncedSearch]);
   return (
-    <Context.Provider value={userData!}>
+    <Context.Provider value={data!}>
       <div>
         <Header saveNameValue={saveNameValue} />
-        {error && !userData ? (
-          <h2 className="errorMessage">{'This user was not found. try again!'}</h2>
-        ) : null}
-        {isLoading ? <h2 className="loadingMessage">{'Loading...'}</h2> : null}
-        {userData ? <MainInfo /> : <StartingPage />}
+        <div>
+          {isError && !data && (
+            <h2 className='errorMessage'>{'This user was not found. try again!'}</h2>
+          )}
+          {isLoading && <Loader />}
+        </div>
+        {data ? <MainInfo /> : <StartingPage />}
       </div>
     </Context.Provider>
   );
-}
+};
 
 export default App;

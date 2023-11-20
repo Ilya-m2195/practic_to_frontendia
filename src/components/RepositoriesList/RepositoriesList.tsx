@@ -1,55 +1,56 @@
 import style from './repositoriesList.module.css';
 import RepositoriesItem from '../RepositoriesItem/RepositoriesItem';
-import { useEffect, useState } from 'react';
-import { getRepos } from '../../api/api';
-import { PaginationContainer } from '../pagination/PaginationContainer';
+import { FC, useEffect, useState } from 'react';
+import PaginationContainer from '../pagination/PaginationContainer';
 import { IUserData } from '../../app/App';
-
-interface IReposData {
+import useGetReposData from '../../hooks/useGetReposData';
+import Loader from '../Loader/loader';
+export interface IReposData {
   name: string;
   description: string;
   id: string;
 }
-
 type Props = {
   data: IUserData;
 };
+enum DefaultValues {
+  currentPage = 1,
+  pageLimit = 4,
+  totalCount = 0
+}
 
-export default function RepositoriesList({ data }: Props) {
-  const [repos, setRepos] = useState<Array<IReposData>>();
-  const [error, setError] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageLimit] = useState(4);
-  const [totalCount, setTotalCount] = useState(0);
+const RepositoriesList: FC<Props> = ({ data }) => {
+  const [currentPage, setCurrentPage] = useState(DefaultValues.currentPage);
+  const [pageLimit] = useState(DefaultValues.pageLimit);
+  const [totalCount, setTotalCount] = useState(DefaultValues.totalCount);
+  const [repos, isError, isLoading] = useGetReposData(data.login, currentPage, pageLimit);
+
+  const isReposLength = repos?.length === 0;
+  const expressingPaginationValues = currentPage * pageLimit - pageLimit + 1;
 
   useEffect(() => {
-    getRepos(data.login, currentPage, pageLimit)
-      .then((res) => setRepos(res))
-      .catch((error) => setError(error));
-
     if (data.public_repos) {
       setTotalCount(data.public_repos);
     }
-  }, [currentPage, data]);
+  }, [data]);
+
   return (
     <div>
+      {isLoading && <Loader />}
       <h2 className={style.title}>Repositories ({data.public_repos})</h2>
-      {error || repos?.length === 0 ? (
-        <h2 className="errorMessage">{'User`s repositories was not found.'}</h2>
-      ) : null}
-      {repos
-        ? repos.map((rep: IReposData) => {
-            return <RepositoriesItem key={rep.id} name={rep.name} description={rep.description} />;
-          })
-        : null}
+      {(isError || isReposLength) && (
+        <h2 className='errorMessage'>{'User`s repositories was not found.'}</h2>
+      )}
+      {repos &&
+        repos.map((rep: IReposData) => (
+          <RepositoriesItem key={rep.id} name={rep.name} description={rep.description} />
+        ))}
       <div>
-        {data.public_repos ? (
+        {data.public_repos && (
           <div className={style.paginationBlock}>
             <span>
-              {currentPage * pageLimit - pageLimit + 1} -{' '}
-              {currentPage * pageLimit - pageLimit + 1 !== data.public_repos
-                ? `${currentPage * pageLimit} of `
-                : null}
+              {expressingPaginationValues} -{' '}
+              {expressingPaginationValues !== data.public_repos && `${currentPage * pageLimit} of `}
               {data.public_repos} items
             </span>
             <PaginationContainer
@@ -59,8 +60,10 @@ export default function RepositoriesList({ data }: Props) {
               setCurrentPage={setCurrentPage}
             />
           </div>
-        ) : null}
+        )}
       </div>
     </div>
   );
-}
+};
+
+export default RepositoriesList;

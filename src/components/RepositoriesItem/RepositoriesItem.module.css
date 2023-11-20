@@ -10,7 +10,7 @@
 
 .container h3 {
   margin-bottom: 30px;
-  color: var(--blue);
+  color: var(--primaryColor);
 }
 
 .description {

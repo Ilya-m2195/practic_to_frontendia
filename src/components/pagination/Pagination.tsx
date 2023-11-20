@@ -1,5 +1,7 @@
+import { FC } from 'react';
 import { SetFuncType } from './PaginationContainer';
 import style from './pagination.module.css';
+import Button from '../Button/Button';
 type Props = {
   totalCount: number;
   pageLimit: number;
@@ -10,7 +12,8 @@ type Props = {
   firstPage: () => void;
   lastPage: SetFuncType;
 };
-export const Pagination = ({
+
+const Pagination: FC<Props> = ({
   totalCount,
   pageLimit,
   currentPage,
@@ -19,8 +22,12 @@ export const Pagination = ({
   prevPage,
   firstPage,
   lastPage
-}: Props) => {
+}) => {
   let pages: Array<number> = [];
+  const isFirstPage = currentPage === 1;
+  const NumberPages = (pagesCount: number, pageLimit: number): number => pagesCount / pageLimit;
+  const isLastPage = currentPage === Math.ceil(NumberPages(totalCount, pageLimit));
+  const isCurrentPage = (page: number, currentPage: number): boolean => page === currentPage;
 
   const createPages = (
     pages: Array<number>,
@@ -29,76 +36,73 @@ export const Pagination = ({
     pageLimit: number
   ) => {
     if (pagesCount / pageLimit > 10) {
-      if (currentPage > 5) {
-        for (let i = currentPage - 4; i <= currentPage + 5; i++) {
-          pages.push(i);
-          if (i === pagesCount) break;
+      switch (currentPage > 5) {
+        case true: {
+          for (let i = currentPage - 4; i <= currentPage + 5; i++) {
+            pages.push(i);
+            if (i === pagesCount) break;
+          }
+          break;
         }
-      } else {
-        for (let i = 1; i <= 10; i++) {
-          pages.push(i);
-          if (i === pagesCount) break;
+        case false: {
+          for (let i = 1; i <= 10; i++) {
+            pages.push(i);
+            if (i === pagesCount) break;
+          }
+          break;
         }
       }
     } else {
-      if (pagesCount < pageLimit) {
-        for (let i = 1; i <= Math.ceil(pagesCount); i++) {
-          pages.push(i);
+      switch (pagesCount < pageLimit) {
+        case true: {
+          for (let i = 1; i <= Math.ceil(pagesCount); i++) {
+            pages.push(i);
+          }
+          break;
         }
-      } else {
-        for (let i = 1; i <= Math.ceil(pagesCount / pageLimit); i++) {
-          pages.push(i);
+        case false: {
+          for (let i = 1; i <= Math.ceil(pagesCount / pageLimit); i++) {
+            pages.push(i);
+          }
         }
       }
     }
   };
 
-  createPages(pages, totalCount / pageLimit, currentPage, pageLimit);
+  createPages(pages, NumberPages(totalCount, pageLimit), currentPage, pageLimit);
 
   return (
     <div>
-      <nav aria-label="Pagination">
-        <button
-          onClick={firstPage}
-          disabled={currentPage === 1 ? true : false}
-          className={style.btpPagination}
-        >
-          &laquo;
-        </button>
-        <button
-          onClick={() => prevPage(currentPage)}
-          disabled={currentPage === 1 ? true : false}
-          className={style.btpPagination}
-        >
-          &lsaquo;
-        </button>
-        {pages.map((page) => {
-          return (
-            <button
-              key={page}
-              onClick={() => paginate(page)}
-              disabled={page === currentPage ? true : false}
-              className={page === currentPage ? style.currentPage : style.page}
-            >
-              {page}
-            </button>
-          );
-        })}
-        <button
-          onClick={() => nextPage(currentPage)}
-          className={style.btpPagination}
-          disabled={currentPage === Math.ceil(totalCount / pageLimit)}
-        >
-          &rsaquo;
-        </button>
-        <button
-          onClick={() => lastPage(Math.ceil(totalCount / pageLimit))}
-          disabled={currentPage === Math.ceil(totalCount / pageLimit) ? true : false}
-          className={style.btpPagination}
-        >
-          &raquo;
-        </button>
+      <nav aria-label='Pagination'>
+        <Button iconCode='&laquo;' isDisabled={isFirstPage} handelFunc={firstPage} />
+        <Button
+          iconCode='&lsaquo;'
+          isDisabled={isFirstPage}
+          handelFunc={() => prevPage(currentPage)}
+        />
+        {pages.map((page) => (
+          <button
+            key={page}
+            onClick={() => paginate(page)}
+            disabled={isCurrentPage(page, currentPage)}
+            className={isCurrentPage(page, currentPage) ? style.currentPage : style.page}
+          >
+            {page}
+          </button>
+        ))}
+        <Button
+          iconCode='&rsaquo;'
+          isDisabled={isLastPage}
+          handelFunc={() => nextPage(currentPage)}
+        />
+        <Button
+          iconCode='&raquo;'
+          isDisabled={isLastPage}
+          handelFunc={() => lastPage(Math.ceil(NumberPages(totalCount, pageLimit)))}
+        />
       </nav>
     </div>
   );
 };
+
+export default Pagination;

@@ -1,6 +1,6 @@
-import { Pagination } from './Pagination';
+import React, { FC } from 'react';
+import Pagination from './Pagination';
 import style from './pagination.module.css';
-
 export type SetFuncType = (page: number) => void;
 
 type Props = {
@@ -10,12 +10,7 @@ type Props = {
   setCurrentPage: SetFuncType;
 };
 
-export const PaginationContainer = ({
-  totalCount,
-  currentPage,
-  pageLimit,
-  setCurrentPage
-}: Props) => {
+const PaginationContainer: FC<Props> = ({ totalCount, currentPage, pageLimit, setCurrentPage }) => {
   const paginate = (page: number) => {
     setCurrentPage(page);
   };
@@ -39,3 +34,5 @@ export const PaginationContainer = ({
     </div>
   );
 };
+
+export default PaginationContainer;
