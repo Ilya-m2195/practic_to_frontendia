@@ -12,7 +12,7 @@ const useGetUserData = (value: string): [IUserData, boolean, boolean] => {
       setIsLoading(true);
       try {
         const result = await getUserData(value);
-        setData(result);
+        setData(result as IUserData);
         setIsLoading(false);
       } catch (error) {
         console.log(error);

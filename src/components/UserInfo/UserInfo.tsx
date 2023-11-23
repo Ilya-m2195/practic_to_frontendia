@@ -3,6 +3,8 @@ import style from './userInfo.module.css';
 import { GoPeople, GoPerson } from 'react-icons/go';
 
 const UserInfo = ({ avatar_url, name, login, followers, following }: IUserData) => {
+  const errorMessage = 'Unknown user`s name';
+
   return (
     <div>
       <img
@@ -13,7 +15,7 @@ const UserInfo = ({ avatar_url, name, login, followers, following }: IUserData) 
         }
         alt='user'
       />
-      <h3 className={style.name}>{name ? name : 'Unknown user`s name'}</h3>
+      <h3 className={style.name}>{name ? name : errorMessage}</h3>
       <p className={style.nick}>{login}</p>
       <div className={style.followersBlock}>
         <span>

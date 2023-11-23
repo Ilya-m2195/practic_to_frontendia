@@ -9,3 +9,20 @@
   opacity: 0.6;
   cursor: default;
 }
+
+.currentPage {
+  color: #fff;
+  cursor: default;
+  padding: 5px;
+  background: var(--primaryColor);
+  border-radius: 3px;
+  font-size: 20px;
+  margin-right: 5px;
+}
+
+.page {
+  color: #666;
+  padding: 5px;
+  font-size: 18px;
+  margin-right: 5px;
+}

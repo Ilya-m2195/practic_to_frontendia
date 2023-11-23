@@ -9,6 +9,12 @@ type Props = {
 
 const Search: FC<Props> = ({ saveNameValue }) => {
   const [value, setValue] = useState('');
+
+  const handler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setValue(e.currentTarget.value);
+  };
+
   useEffect(() => {
     saveNameValue(value);
   }, [value]);
@@ -17,24 +23,10 @@ const Search: FC<Props> = ({ saveNameValue }) => {
     <div>
       <form className={style.form}>
         <AiOutlineSearch className={style.icon} />
-        {/* <input
-          name='name'
-          className={style.input}
-          type='text'
-          onChange={(e) => {
-            e.preventDefault();
-            setValue(e.currentTarget.value);
-          }}
-          value={value}
-          placeholder='Enter GitHub user name'
-        /> */}
         <Input
           name='name'
           type='text'
-          handelFunc={(e) => {
-            e.preventDefault();
-            setValue(e.currentTarget.value);
-          }}
+          handelFunc={handler}
           value={value}
           placeholder='Enter GitHub user name'
         />
