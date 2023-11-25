@@ -4,22 +4,19 @@ import style from './button.module.css';
 type Props = {
   iconCode: string | number;
   isDisabled: boolean;
-  handelFunc: () => void;
+  handlerFunc: () => void;
 };
 
-const Button: FC<Props> = ({ iconCode, isDisabled, handelFunc }) => {
+const Button: FC<Props> = ({ iconCode, isDisabled, handlerFunc }) => {
+  const classNames =
+    typeof iconCode === 'string'
+      ? style.btpPagination
+      : isDisabled
+      ? style.currentPage
+      : style.page;
+
   return (
-    <button
-      onClick={handelFunc}
-      disabled={isDisabled}
-      className={
-        typeof iconCode === 'string'
-          ? style.btpPagination
-          : isDisabled
-          ? style.currentPage
-          : style.page
-      }
-    >
+    <button onClick={handlerFunc} disabled={isDisabled} className={classNames}>
       {iconCode}
     </button>
   );

@@ -24,6 +24,7 @@ const RepositoriesList: FC<Props> = ({ data }) => {
   const [pageLimit] = useState(DefaultValues.pageLimit);
   const [totalCount, setTotalCount] = useState(DefaultValues.totalCount);
   const [repos, isError, isLoading] = useGetReposData(data.login, currentPage, pageLimit);
+  const errorMessage = 'User`s repositories was not found.';
 
   const isReposLength = repos?.length === 0;
   const expressingPaginationValues = currentPage * pageLimit - pageLimit + 1;
@@ -38,15 +39,13 @@ const RepositoriesList: FC<Props> = ({ data }) => {
     <div>
       {isLoading && <Loader />}
       <h2 className={style.title}>Repositories ({data.public_repos})</h2>
-      {(isError || isReposLength) && (
-        <h2 className='errorMessage'>{'User`s repositories was not found.'}</h2>
-      )}
+      {(isError || isReposLength) && <h2 className='errorMessage'>{errorMessage}</h2>}
       {repos &&
         repos.map((rep: IReposData) => (
           <RepositoriesItem key={rep.id} name={rep.name} description={rep.description} />
         ))}
-      <div>
-        {data.public_repos && (
+      {!isReposLength && (
+        <div>
           <div className={style.paginationBlock}>
             <span>
               {expressingPaginationValues} -{' '}
@@ -60,8 +59,8 @@ const RepositoriesList: FC<Props> = ({ data }) => {
               setCurrentPage={setCurrentPage}
             />
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

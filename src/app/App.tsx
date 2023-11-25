@@ -18,6 +18,8 @@ export interface IUserData {
   public_repos?: number;
 }
 
+const errorMessage = 'This user was not found. Try again!';
+
 const App = () => {
   const [name, setName] = useState('');
   const saveNameValue = (value: string) => setName(value);
@@ -31,9 +33,7 @@ const App = () => {
       <div>
         <Header saveNameValue={saveNameValue} />
         <div>
-          {isError && !data && (
-            <h2 className='errorMessage'>{'This user was not found. try again!'}</h2>
-          )}
+          {isError && !data && <h2 className='errorMessage'>{errorMessage}</h2>}
           {isLoading && <Loader />}
         </div>
         {data ? <MainInfo /> : <StartingPage />}

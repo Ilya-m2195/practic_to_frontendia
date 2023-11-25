@@ -42,18 +42,18 @@ const Pagination: FC<Props> = ({
   return (
     <div>
       <nav aria-label='Pagination'>
-        <Button iconCode='&laquo;' isDisabled={isFirstPage} handelFunc={firstPage} />
-        <Button iconCode='&lsaquo;' isDisabled={isFirstPage} handelFunc={handlerPrevPage} />
+        <Button iconCode='&laquo;' isDisabled={isFirstPage} handlerFunc={firstPage} />
+        <Button iconCode='&lsaquo;' isDisabled={isFirstPage} handlerFunc={handlerPrevPage} />
         {pages.map((page) => (
           <Button
             key={page}
             iconCode={page}
-            handelFunc={() => handlerPaginate(page)}
+            handlerFunc={() => handlerPaginate(page)}
             isDisabled={isCurrentPage(page, currentPage)}
           />
         ))}
-        <Button iconCode='&rsaquo;' isDisabled={isLastPage} handelFunc={handlerNextPage} />
-        <Button iconCode='&raquo;' isDisabled={isLastPage} handelFunc={handlerLastPage} />
+        <Button iconCode='&rsaquo;' isDisabled={isLastPage} handlerFunc={handlerNextPage} />
+        <Button iconCode='&raquo;' isDisabled={isLastPage} handlerFunc={handlerLastPage} />
       </nav>
     </div>
   );

@@ -10,7 +10,7 @@ type Props = {
 const Search: FC<Props> = ({ saveNameValue }) => {
   const [value, setValue] = useState('');
 
-  const handler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlerSetInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setValue(e.currentTarget.value);
   };
@@ -26,7 +26,7 @@ const Search: FC<Props> = ({ saveNameValue }) => {
         <Input
           name='name'
           type='text'
-          handelFunc={handler}
+          handelFunc={handlerSetInputValue}
           value={value}
           placeholder='Enter GitHub user name'
         />

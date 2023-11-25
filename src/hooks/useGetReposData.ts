@@ -16,10 +16,9 @@ const useGetReposData = (
       setIsLoading(true);
       try {
         const result = await getRepos(value, currentPage, pageLimit);
-        setData(result as IReposData[]);
+        setData(result);
         setIsLoading(false);
       } catch (error) {
-        console.log(error);
         setIsError(true);
         setIsLoading(false);
       }
