@@ -10,9 +10,8 @@ type Props = {
 const AddClassNames = (iconCode: string | number, isDisabled: boolean) => {
   if (typeof iconCode === 'string') {
     return style.btpPagination;
-  } else {
-    return isDisabled ? style.currentPage : style.page;
   }
+  return isDisabled ? style.currentPage : style.page;
 };
 
 const Button: FC<Props> = ({ iconCode, isDisabled, handlerFunc }) => {
