@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { SetFuncType } from './PaginationContainer';
 import Button from '../Button/Button';
 import useCreatePaginationRepos from '../../hooks/useCreatePaginationPages';
+
 type Props = {
   totalCount: number;
   pageLimit: number;

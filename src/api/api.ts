@@ -8,8 +8,7 @@ const instance = axios.create({
 
 export const getUserData = async (name: string): Promise<IUserData> => {
   const resp = await instance.get(name);
-  const data = resp.data;
-  return data;
+  return resp.data;
 };
 
 export const getRepos = async (
@@ -18,6 +17,5 @@ export const getRepos = async (
   pageLimit: number
 ): Promise<Array<IReposData>> => {
   const resp = await instance.get(`${name}/repos?page=${page}&per_page=${pageLimit}`);
-  const data = resp.data;
-  return data;
+  return resp.data;
 };

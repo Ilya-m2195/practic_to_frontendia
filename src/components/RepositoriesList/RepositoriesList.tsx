@@ -5,14 +5,17 @@ import PaginationContainer from '../pagination/PaginationContainer';
 import { IUserData } from '../../app/App';
 import useGetReposData from '../../hooks/useGetReposData';
 import Loader from '../Loader/loader';
+
 export interface IReposData {
   name: string;
   description: string;
   id: string;
 }
+
 type Props = {
   data: IUserData;
 };
+
 enum DefaultValues {
   currentPage = 1,
   pageLimit = 4,
@@ -21,13 +24,17 @@ enum DefaultValues {
 
 const RepositoriesList: FC<Props> = ({ data }) => {
   const [currentPage, setCurrentPage] = useState(DefaultValues.currentPage);
-  const [pageLimit] = useState(DefaultValues.pageLimit);
   const [totalCount, setTotalCount] = useState(DefaultValues.totalCount);
-  const [repos, isError, isLoading] = useGetReposData(data.login, currentPage, pageLimit);
+  const [repos, isError, isLoading] = useGetReposData(
+    data.login,
+    currentPage,
+    DefaultValues.pageLimit
+  );
   const errorMessage = 'User`s repositories was not found.';
 
   const isReposLength = repos?.length === 0;
-  const expressingPaginationValues = currentPage * pageLimit - pageLimit + 1;
+  const expressingPaginationValues =
+    currentPage * DefaultValues.pageLimit - DefaultValues.pageLimit + 1;
 
   useEffect(() => {
     if (data.public_repos) {
@@ -49,13 +56,14 @@ const RepositoriesList: FC<Props> = ({ data }) => {
           <div className={style.paginationBlock}>
             <span>
               {expressingPaginationValues} -{' '}
-              {expressingPaginationValues !== data.public_repos && `${currentPage * pageLimit} of `}
+              {expressingPaginationValues !== data.public_repos &&
+                `${currentPage * DefaultValues.pageLimit} of `}
               {data.public_repos} items
             </span>
             <PaginationContainer
               totalCount={totalCount}
               currentPage={currentPage}
-              pageLimit={pageLimit}
+              pageLimit={DefaultValues.pageLimit}
               setCurrentPage={setCurrentPage}
             />
           </div>

@@ -7,16 +7,21 @@ type Props = {
   handlerFunc: () => void;
 };
 
-const Button: FC<Props> = ({ iconCode, isDisabled, handlerFunc }) => {
-  const classNames =
-    typeof iconCode === 'string'
-      ? style.btpPagination
-      : isDisabled
-      ? style.currentPage
-      : style.page;
+const AddClassNames = (iconCode: string | number, isDisabled: boolean) => {
+  if (typeof iconCode === 'string') {
+    return style.btpPagination;
+  } else {
+    return isDisabled ? style.currentPage : style.page;
+  }
+};
 
+const Button: FC<Props> = ({ iconCode, isDisabled, handlerFunc }) => {
   return (
-    <button onClick={handlerFunc} disabled={isDisabled} className={classNames}>
+    <button
+      onClick={handlerFunc}
+      disabled={isDisabled}
+      className={AddClassNames(iconCode, isDisabled)}
+    >
       {iconCode}
     </button>
   );

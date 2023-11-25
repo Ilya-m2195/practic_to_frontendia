@@ -18,12 +18,13 @@ export interface IUserData {
   public_repos?: number;
 }
 
+const delayTime = 1000;
+
 const errorMessage = 'This user was not found. Try again!';
 
 const App = () => {
   const [name, setName] = useState('');
   const saveNameValue = (value: string) => setName(value);
-  const delayTime = 1000;
 
   const debouncedSearch = useDebounce(name, delayTime);
   const [data, isError, isLoading] = useGetUserData(debouncedSearch);
